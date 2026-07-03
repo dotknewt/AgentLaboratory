@@ -3,7 +3,7 @@ import random, time
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 import os
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from flask_sqlalchemy import SQLAlchemy
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity

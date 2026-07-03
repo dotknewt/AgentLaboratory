@@ -2,7 +2,8 @@ import openai
 import time, tiktoken
 from openai import OpenAI
 import os, anthropic, json
-import google.generativeai as genai
+from google import genai
+from google.genai import types as genai_types
 
 TOKENS_IN = dict()
 TOKENS_OUT = dict()
@@ -74,13 +75,19 @@ def query_model(model_str, prompt, system_prompt, openai_api_key=None, gemini_ap
                 answer = completion.choices[0].message.content
 
             elif model_str == "gemini-2.0-pro":
-                genai.configure(api_key=gemini_api_key)
-                model = genai.GenerativeModel(model_name="gemini-2.0-pro-exp-02-05", system_instruction=system_prompt)
-                answer = model.generate_content(prompt).text
+                client = genai.Client(api_key=gemini_api_key)
+                answer = client.models.generate_content(
+                    model="gemini-2.0-pro-exp-02-05",
+                    contents=prompt,
+                    config=genai_types.GenerateContentConfig(system_instruction=system_prompt),
+                ).text
             elif model_str == "gemini-1.5-pro":
-                genai.configure(api_key=gemini_api_key)
-                model = genai.GenerativeModel(model_name="gemini-1.5-pro", system_instruction=system_prompt)
-                answer = model.generate_content(prompt).text
+                client = genai.Client(api_key=gemini_api_key)
+                answer = client.models.generate_content(
+                    model="gemini-1.5-pro",
+                    contents=prompt,
+                    config=genai_types.GenerateContentConfig(system_instruction=system_prompt),
+                ).text
             elif model_str == "o3-mini":
                 model_str = "o3-mini"
                 messages = [
