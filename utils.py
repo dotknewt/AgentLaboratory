@@ -4,7 +4,8 @@ import time
 import tiktoken, openai
 import subprocess, string
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
+from google.genai import types as genai_types
 from huggingface_hub import InferenceClient
 
 
@@ -97,9 +98,12 @@ def query_gpt4o(prompt, system, api_key, attempt=0, temperature=0.0):
 
 def query_gemini(prompt, system, api_key, attempt=0, temperature=0.0):
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(model_name="gemini-1.5-pro", system_instruction=system)
-        response = model.generate_content(prompt, generation_config=genai.types.GenerationConfig(temperature=temperature)).text.strip()
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model="gemini-1.5-pro",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(system_instruction=system, temperature=temperature),
+        ).text.strip()
         time.sleep(1)
         return response
     except Exception as e:
@@ -112,9 +116,12 @@ def query_gemini(prompt, system, api_key, attempt=0, temperature=0.0):
 
 def query_gemini2p0(prompt, system, api_key, attempt=0, temperature=0.0,):
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(model_name="gemini-2.0-flash", system_instruction=system)
-        response = model.generate_content(prompt, generation_config=genai.types.GenerationConfig(temperature=temperature)).text.strip()
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(system_instruction=system, temperature=temperature),
+        ).text.strip()
         time.sleep(1)
         return response
     except Exception as e:

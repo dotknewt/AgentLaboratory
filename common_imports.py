@@ -40,7 +40,12 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, random_split
-import tensorflow as tf
+# TensorFlow is optional: not installed by requirements.txt.
+# Install manually (pip install tensorflow) if generated experiments need it.
+try:
+    import tensorflow as tf
+except ImportError:
+    tf = None
 #import keras
 
 # NLP Libraries
@@ -81,7 +86,7 @@ from scipy.optimize import minimize
 from scipy.spatial.distance import euclidean, cosine
 from scipy.linalg import svd, eig
 from statsmodels.api import OLS, Logit
-from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller, pacf, acf
 
 # Image processing and handling

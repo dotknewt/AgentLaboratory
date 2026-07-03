@@ -1,5 +1,5 @@
-import PyPDF2
 import threading
+from pypdf import PdfReader
 from app import *
 from agents import *
 from copy import copy
@@ -601,9 +601,9 @@ class AgentRxiv:
             return "Paper ID not found?"
 
     @staticmethod
-    def read_pdf_pypdf2(pdf_path):
+    def read_pdf(pdf_path):
         with open(pdf_path, 'rb') as pdf_file:
-            reader = PyPDF2.PdfReader(pdf_file)
+            reader = PdfReader(pdf_file)
             text = ''
             for page_num in range(len(reader.pages)):
                 page = reader.pages[page_num]
@@ -628,7 +628,7 @@ class AgentRxiv:
                     filename = Path(f'_tmp_{self.lab_index}.pdf')
                     response = requests.get(result['pdf_url'])
                     filename.write_bytes(response.content)
-                    self.pdf_text[arxiv_id] = self.read_pdf_pypdf2(f'_tmp_{self.lab_index}.pdf')
+                    self.pdf_text[arxiv_id] = self.read_pdf(f'_tmp_{self.lab_index}.pdf')
                     self.summaries[arxiv_id] = query_model(
                         prompt=self.pdf_text[arxiv_id],
                         system_prompt="Please provide a 5 sentence summary of this paper.",

@@ -51,7 +51,7 @@ To select a specific llm set the flag `--llm-backend="llm_model"` for example `-
 
 ### Python venv option
 
-* We recommend using python 3.12
+* Requires Python 3.12 or newer. Tested on Python 3.12 and 3.13; Python 3.14 is supported on a best-effort basis.
 
 1. **Clone the GitHub Repository**: Begin by cloning the repository using the command:
 ```bash
@@ -71,6 +71,7 @@ source venv_agent_lab/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+- TensorFlow is optional and not installed by default. If your generated experiments require it, run `pip install tensorflow` (Python 3.12/3.13 only; no Python 3.14 wheels yet).
 
 4. **Install pdflatex [OPTIONAL]**
 ```bash
