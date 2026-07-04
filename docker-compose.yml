@@ -1,0 +1,29 @@
+services:
+  agentlab:
+    build:
+      context: .
+      # Uncomment to bake pdflatex into the image (needed for
+      # compile-latex: True in your experiment config; adds ~1 GB):
+      # args:
+      #   WITH_LATEX: "true"
+    image: agentlaboratory
+    # copilot-mode: True prompts for human input on stdin
+    stdin_open: true
+    tty: true
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+    volumes:
+      # Experiment configs are read from the host so you can edit them
+      # without rebuilding.
+      - ./experiment_configs:/app/experiment_configs
+      # Run outputs land on the host.
+      - ./output/state_saves:/app/state_saves
+      - ./output/MATH_research_dir:/app/MATH_research_dir
+      - ./output/uploads:/app/uploads
+      # Hugging Face / model caches persist across runs.
+      - model_cache:/app/.cache
+    command: ["--yaml-location", "experiment_configs/MATH_agentlab.yaml"]
+
+volumes:
+  model_cache:

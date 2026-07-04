@@ -1,0 +1,29 @@
+# Local environments and caches
+venv_agent_lab/
+**/__pycache__/
+*.pyc
+.cache/
+
+# VCS / tooling
+.git/
+.github/
+.claude/
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Docs and assets not needed at runtime
+media/
+readme/
+README.md
+DOCKER.md
+LICENSE
+
+# Run outputs (regenerated inside the container)
+state_saves/
+MATH_research_dir/
+research_dir*/
+uploads/
+instance/
+output/
+*.pkl
